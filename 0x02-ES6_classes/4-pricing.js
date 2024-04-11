@@ -14,7 +14,7 @@ export default class Pricing {
     return this._amount;
   }
 
-  set code(value) {
+  set currency(value) {
     if (value instanceof Currency) {
       this._currency = value;
     } else {
@@ -22,7 +22,7 @@ export default class Pricing {
     }
   }
 
-  get code() {
+  get currency() {
     return this._currency;
   }
 
