@@ -1,7 +1,7 @@
 export default class HolbertonCourse {
   constructor(name, length, students) {
-    this._name = name;
-    this._length = length;
+    this.name = name;
+    this.length = length;
     this.students = students;
   }
 
@@ -17,7 +17,7 @@ export default class HolbertonCourse {
   }
 
   set length(value) {
-    if (Number.isNaN(value)) {
+    if (typeof value !== 'number') {
       throw new TypeError('length must be a number');
     }
     this._length = value;
@@ -28,7 +28,7 @@ export default class HolbertonCourse {
   }
 
   set students(value) {
-    if (Array.isArray(value)) {
+    if (value instanceof Array) {
       this._students = value;
     } else {
       throw new TypeError('student must be an array');
