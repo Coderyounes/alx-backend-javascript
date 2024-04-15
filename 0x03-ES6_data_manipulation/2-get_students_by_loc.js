@@ -1,7 +1,7 @@
 export default function getStudentsByLocation(students, city) {
-  const newarr = [];
+  let newarr = [];
   if (students instanceof Array) {
-    students.filter();
+    newarr = students.filter((item) => item.location === city);
   }
   return newarr;
 }
