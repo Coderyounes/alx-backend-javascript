@@ -7,5 +7,5 @@ export default function updateUniqueItems(listMap) {
     }
     return listMap;
   }
-  return new Error('Cannot process');
+  throw new Error('Cannot process');
 }
