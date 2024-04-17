@@ -32,7 +32,15 @@ var createEmployee = function (salary) {
     }
     return new Director();
 };
-console.log(createEmployee(200));
-console.log(createEmployee(1000));
-console.log(createEmployee('$500'));
+function isDirector(employee) {
+    return employee instanceof Director;
+}
+function executeWork(employee) {
+    if (isDirector(employee)) {
+        return employee.workDirectorTasks();
+    }
+    return employee.workTeacherTasks();
+}
+executeWork(createEmployee(200));
+executeWork(createEmployee(1000));
 //# sourceMappingURL=main.js.map
