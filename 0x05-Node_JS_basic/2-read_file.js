@@ -1,34 +1,29 @@
-#!/usr/bin/env node
-
 const fs = require('fs');
 
 function countStudents(path) {
-  try {
-    const data = fs.readFileSync(path, 'utf8').split('\n');
-    if (!data.length || data[0] === '') {
-      throw new Error('Cannot load the database');
-    }
-
-    const students = {};
-    for (const line of data) {
-      const student = line.split(',');
-      if (student.length === 4 && student[0] !== 'firstname' && student[0] !== '') {
-        if (!students[student[3]]) {
-          students[student[3]] = [];
-        }
-        students[student[3]].push(student[0]);
-      }
-    }
-
-    console.log(`Number of students: ${data.length - 1}`);
-    for (const field in students) {
-      if (Object.prototype.hasOwnProperty.call(students, field)) {
-        console.log(`Number of students in ${field}: ${students[field].length}. List: ${students[field].join(', ')}`);
-      }
-    }
-  } catch (error) {
-    console.error(error.message);
+  if (!fs.existsSync(path)) {
+    throw Error('Cannot load the database');
   }
+
+  const data = fs.readFileSync(path, 'utf8');
+  const students = data.split('\n')
+    .map((student) => student.split(','))
+    .filter((student) => student.length === 4 && student[0] !== 'firstname')
+    .map((student) => ({
+      firstName: student[0],
+      lastName: student[1],
+      age: student[2],
+      field: student[3],
+    }));
+  const csStudents = students
+    .filter((student) => student.field === 'CS')
+    .map((student) => student.firstName);
+  const sweStudents = students
+    .filter((student) => student.field === 'SWE')
+    .map((student) => student.firstName);
+  console.log(`Number of students: ${students.length}`);
+  console.log(`Number of students in CS: ${csStudents.length}. List: ${csStudents.join(', ')}`);
+  console.log(`Number of students in SWE: ${sweStudents.length}. List: ${sweStudents.join(', ')}`);
 }
 
 module.exports = countStudents;
