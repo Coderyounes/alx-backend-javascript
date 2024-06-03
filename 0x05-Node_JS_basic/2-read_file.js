@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const fs = require('node:fs');
+const fs = require('fs');
 
 const countStudents = (path) => {
   fs.readFile(path, 'utf8', (err, data) => {
