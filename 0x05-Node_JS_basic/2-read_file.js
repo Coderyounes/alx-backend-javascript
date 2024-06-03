@@ -2,34 +2,30 @@
 
 const fs = require('node:fs');
 
-const objList = [];
-
 const countStudents = (path) => {
   fs.readFile(path, 'utf8', (err, data) => {
     if (err) {
       throw new Error('Cannot load the database');
     }
     const lines = data.split('\n');
-    const headers = lines[0].split(',');
     const students = lines.length - 1;
-    const group = [];
+    const fields = {};
 
-    console.log('Number of students: ', students);
-
-    lines.slice(1).map((data) => {
-      const values = data.split(',');
-      group.push(values);
+    lines.slice(1).forEach((line) => {
+      const values = line.split(',');
+      const field = values[3];
+      if (!fields[field]) {
+        fields[field] = [];
+      }
+      fields[field].push(values[0]);
     });
 
-    group.map((arr) => {
-      const obj = {};
-      headers.forEach((field, idx) => {
-        obj[field] = arr[idx];
-      });
-      objList.push(obj);
-    });
-    console.log(objList);
-    // Write a Logic to separate each Students & Extract their firstname & count them
+    console.log('Number of students:', students);
+    for (const field in fields) {
+      if (fields.hasOwnProperty(field)) {
+        console.log(`Number of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}`);
+      }
+    }
   });
 };
 
