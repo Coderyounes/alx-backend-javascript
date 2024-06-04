@@ -1,6 +1,8 @@
 const http = require('http');
 const fs = require('fs');
 
+const csvFile = process.argv[2];
+
 async function countStudents(path) {
   let data;
   try {
@@ -39,16 +41,26 @@ const app = http.createServer(async (req, res) => {
   }
 
   if (req.url === '/students') {
-    res.statusCode = 200;
-    const data = countStudents('database.csv');
-    // parse the data to the Good format to display in response body
+    try {
+      const data = await countStudents(csvFile);
+      let responseText = 'This is the list of our students\n';
+      responseText += `Number of students: ${data.students.length}\n`;
+      responseText += `Number of students in CS: ${data.csStudents.length}. List: ${data.csStudents.join(', ')}\n`;
+      responseText += `Number of students in SWE: ${data.sweStudents.length}. List: ${data.sweStudents.join(', ')}`;
+
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/plain');
+      res.end(responseText);
+    } catch (error) {
+      res.statusCode = 500;
+      res.setHeader('Content-Type', 'text/plain');
+      res.end(error.message);
+    }
   }
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});
 
 module.exports = app;
-
-// in path '/students' should display 'This is the list of our students'
-// the Script should Take a file.csv as argument
-// the script  use countStudent function
