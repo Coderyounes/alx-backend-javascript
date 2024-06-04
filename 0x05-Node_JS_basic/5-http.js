@@ -52,7 +52,6 @@ const app = http.createServer(async (req, res) => {
       res.setHeader('Content-Type', 'text/plain');
       res.end(responseText);
     } catch (error) {
-      res.statusCode = 500;
       res.setHeader('Content-Type', 'text/plain');
       res.end(error.message);
     }
