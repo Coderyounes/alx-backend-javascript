@@ -41,20 +41,18 @@ const app = http.createServer(async (req, res) => {
   }
 
   if (req.url === '/students') {
+    res.write('This is the list of our students\n');
     try {
       const data = await countStudents(csvFile);
-      let responseText = 'This is the list of our students\n';
-      responseText += `Number of students: ${data.students.length}\n`;
-      responseText += `Number of students in CS: ${data.csStudents.length}. List: ${data.csStudents.join(', ')}\n`;
-      responseText += `Number of students in SWE: ${data.sweStudents.length}. List: ${data.sweStudents.join(', ')}`;
+      res.write(`Number of students: ${data.students.length}\n`);
+      res.write(`Number of students in CS: ${data.csStudents.length}. List: ${data.csStudents.join(', ')}\n`);
+      res.write(`Number of students in SWE: ${data.sweStudents.length}. List: ${data.sweStudents.join(', ')}`);
 
       res.statusCode = 200;
-      res.setHeader('Content-Type', 'text/plain');
-      res.end(responseText);
     } catch (error) {
-      res.setHeader('Content-Type', 'text/plain');
-      res.end(error.message);
+      res.write(error.message);
     }
+    res.end();
   }
 });
 
