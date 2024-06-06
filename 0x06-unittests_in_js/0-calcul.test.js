@@ -7,6 +7,10 @@ describe('calculateNumber', () => {
   });
 
   it('should return 5 when a is 1 and b is 3.7', () => {
+    assert.strictEqual(calculateNumber(1, 3.0), 4);
+  });
+
+  it('should return 5 when a is 1 and b is 3.7', () => {
     assert.strictEqual(calculateNumber(1.0, 3.7), 5);
   });
 
