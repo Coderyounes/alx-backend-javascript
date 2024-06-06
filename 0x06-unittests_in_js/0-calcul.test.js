@@ -29,4 +29,8 @@ describe('calculateNumber', () => {
   it('should return 1 when a is 0.4 and b is 0.7', () => {
     assert.strictEqual(calculateNumber(0.4, 0.7), 1);
   });
+
+  it('should return 5 when a is 1.66 and b is 2.66', () => {
+    assert.strictEqual(calculateNumber(1.66, 2.66), 5);
+  });
 });
